@@ -1,0 +1,27 @@
+for (int count = 0; count < obj_ADV_ScheduleBOL.mdt_InvalidData.Count(); count++)
+                    {
+                        obj_ADV_ScheduleBOL.mdt_InvalidData[count].TableName = "Dharmveer"+count.ToString();
+                    }
+                    using (XLWorkbook wb = new XLWorkbook())
+                    { 
+                        foreach (DataTable dt in obj_ADV_ScheduleBOL.mdt_InvalidData)
+                        {
+                            if (dt != null && dt.Rows.Count > 1)
+                            {
+                                //Add DataTable as Worksheet.
+                                var WS = wb.Worksheets.Add(dt);
+                                WS.Tables.FirstOrDefault().ShowAutoFilter = false;                              
+                                WS.Tables.FirstOrDefault().HeadersRow().Style.Fill.BackgroundColor = XLColor.NoColor;
+                                WS.Style.Alignment.Horizontal = XLAlignmentHorizontalValues.Center; 
+                            }
+
+                        }
+                        //Export the Excel file.
+                        //Response.Clear();
+                        //Response.Buffer = true;
+                       // Response.Charset = "";
+                        //Response.ContentType = "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+                        //Response.AddHeader("content-disposition", "attachment;filename=" + FileName + "");
+                        string outfile = Utilities.WebConfiguration.Invalid_DataFileFolder + FileName;
+                        wb.SaveAs(outfile);
+                    }
